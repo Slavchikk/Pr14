@@ -45,7 +45,7 @@ namespace WpfApp3
                 clientService.StartTime = dateTime;
                 BaseClass.EM.ClientService.Add(clientService);
                 BaseClass.EM.SaveChanges();
-                MessageBox.Show("Клиент успешно записан на услугу");
+                MessageBox.Show("Клиент записан");
                 FrameClass.MainFrame.Navigate(new ListServices(1));
             }
             catch
