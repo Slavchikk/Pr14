@@ -1,0 +1,116 @@
+﻿<Page x:Class="WpfApp3.ListServices"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp3"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ListServices">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="143*"/>
+            <RowDefinition Height="600*"/>
+            <RowDefinition Height="150*"/>
+        </Grid.RowDefinitions>
+
+
+        <StackPanel Grid.Row="0" Orientation="Vertical" >
+            <StackPanel>
+                <TextBlock Style="{StaticResource  TBMainText}" Margin="0,0,15,10">Услуги</TextBlock>
+                <RadioButton Margin="40,0,0,0" x:Name="checkBoxAdm" Click="checkBoxAdm_Click" Height="20" Content="Администратор активирован" />
+            </StackPanel>
+
+            <StackPanel  Orientation="Horizontal" >
+
+            
+            <StackPanel Orientation="Vertical" Margin="20,0,0,25">
+                <TextBlock Style="{StaticResource  TBStyle}" Margin="0,0,15,10">Сортировка по цене:</TextBlock>
+                <ComboBox Name="CBSort" Width="160"  Height="30"  SelectionChanged="cbSort_Chang" HorizontalAlignment="Left" IsEnabled="True">
+                    
+                    <ComboBoxItem Content="По возрастанию"/>
+                    <ComboBoxItem Content="По убыванию"/>
+
+                </ComboBox>
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" Margin="10,0,0,25">
+                <TextBlock Style="{StaticResource  TBStyle}" Margin="0,0,15,10">Фильтрация по скидке:</TextBlock>
+
+                <ComboBox SelectionChanged="cbFiltr_Chang" Width="160"  Height="30" Name="CBDiscount">
+                        <ComboBoxItem>все</ComboBoxItem>
+                        <ComboBoxItem>от 0% до 5%</ComboBoxItem>
+                        <ComboBoxItem>от 5% до 15%</ComboBoxItem>
+                        <ComboBoxItem>от 15% до 30%</ComboBoxItem>
+                        <ComboBoxItem>от 30% до 70%</ComboBoxItem>
+                        <ComboBoxItem>от 70% до 100%</ComboBoxItem>
+                    </ComboBox>
+              
+            </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="10,0,0,25">
+                    <TextBlock Style="{StaticResource  TBStyle}" Margin="0,0,15,10">Поиск по названию</TextBlock>
+                    <TextBox  TextChanged="TbFindTitle_TextChanged"  Height="30" Width="160" Name="TbFindTitle"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="10,0,0,25">
+                    <TextBlock Style="{StaticResource  TBStyle}" Margin="0,0,15,10">Поиск по описанию</TextBlock>
+                    <TextBox  TextChanged="TbFindDescription_TextChanged"  Height="30" Width="160" Name="TbFindDescription"></TextBox>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <ListView Name="listTable" ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.Row="1" Margin="0,30,0,0">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="5" CornerRadius="5" BorderThickness="1" BorderBrush="Aquamarine">
+                        <Grid Name="gridMain" Background="{Binding PropertyColor}"  >
+                            
+                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Width="200" HorizontalAlignment="Left">
+                                    <Image Width="200" Source="{Binding MainImagePath }"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock VerticalAlignment="Top" Style="{StaticResource  TBStyle}" Name="TBTitle" Text="{Binding Title}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock HorizontalAlignment="Left" Uid="{Binding Discount}"  Style="{StaticResource  TBStyle}" TextDecorations="Strikethrough" Name="TBCost" Text="{Binding Cost, StringFormat='{}{0:0}'}" Loaded="TBCost_Loaded"/>
+                                        <TextBlock Margin="10,0,0,0" Style="{StaticResource  TBStyle}" Name="TBDiscPrice" Text="{Binding DiscPrice, StringFormat={}{0:g} рублей за}"/>
+                                        <TextBlock Margin="10,0,0,0" Style="{StaticResource  TBStyle}" Text="{Binding DirMin, StringFormat={}{0} минут}"/>
+                                    </StackPanel>
+                                    <TextBlock  Margin="20,0,0,0" Name="TBDiscount" Uid="{Binding Discount}" Text="{Binding Discount, StringFormat={}*скидка {0:P2}}"  Loaded="TBDiscount_Loaded" />
+                                    <Button  Loaded="btnInsert_Loaded"  Name="btnInsert"  Uid="{Binding ID}" Template="{StaticResource CTButon}" Width="150" Click="btnInsert_Click">Изменение услуги</Button>
+                                    <Button  Loaded="btnDelete_Loaded" Name="btnDelete"  Uid="{Binding ID}" Template="{StaticResource CTButon}" Width="150" Click="btnDelete_Click">Удаление услуги</Button>
+                                    <Button  Loaded="btnAddService_Loaded" Name="btnAddService"  Uid="{Binding ID}" Template="{StaticResource CTButon}" Width="150" Click ="btnAddService_Click">Добавление записи</Button>
+                                </StackPanel>
+                                
+                                    
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+        <StackPanel VerticalAlignment="Center" Grid.Row="2"  Background="White">
+            <StackPanel Margin="40,0,0,0" Orientation="Horizontal">
+                <TextBlock Margin="20,0,0,0" Style="{StaticResource  TBStyle}" Name ="TbSecond"></TextBlock>
+                
+                <TextBlock Margin="20,0,20,0" Style="{StaticResource  TBStyle}" >из   </TextBlock>
+                <TextBlock Style="{StaticResource  TBStyle}" Name ="TbFirst"></TextBlock>
+                <Button  Visibility="Hidden" Width="200" Margin="200,0,0,0" Template="{StaticResource CTButon}" Name="btnAdd" Click="btnAdd_Click"> Добавить услугу</Button>
+              
+
+            </StackPanel>
+            
+        </StackPanel>
+        
+      
+
+    </Grid>
+</Page>
